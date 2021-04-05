@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -16,10 +17,10 @@ namespace WebApi.Controllers
 
         public SampleController(
             ILogger<SampleController> logger,
-            IDbConnection dbConnection)
+            Func<string, IDbConnection> dbConnectionFactory)
         {
             _logger = logger;
-            _dbConnection = dbConnection;
+            _dbConnection = dbConnectionFactory("Default");
         }
 
         [HttpGet("/things/{id}")]
